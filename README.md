@@ -1,6 +1,6 @@
 # StackTeste — CRUD de Leads e Tasks
 
-Implementação do desafio técnico [novacia/stack-teste-202510](https://github.com/novacia/stack-teste-202510): CRUD de **Leads** com **Tasks** associadas, usando **.NET 8 + EF Core** no backend e **Angular 19** no frontend.
+Implementação do desafio técnico: CRUD de **Leads** com **Tasks** associadas, usando **.NET 8 + EF Core** no backend e **Angular 19** no frontend.
 
 ---
 
