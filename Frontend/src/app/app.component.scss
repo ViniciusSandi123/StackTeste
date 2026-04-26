@@ -1,0 +1,23 @@
+.app-toolbar {
+  background: #1976d2;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  .toolbar-icon {
+    margin-right: 10px;
+  }
+
+  .toolbar-title {
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+}
+
+.app-content {
+  min-height: calc(100vh - 64px);
+  background: #f5f6fa;
+}

@@ -1,0 +1,125 @@
+@if (isDialog) {
+  <h2 mat-dialog-title>{{ isEditing ? "Editar Lead" : "Novo Lead" }}</h2>
+  <mat-dialog-content>
+    @if (isLoadingLead) {
+      <div style="text-align:center;padding:48px">
+        <mat-spinner diameter="40" style="margin:auto"></mat-spinner>
+      </div>
+    } @else {
+      <ng-container *ngTemplateOutlet="formContent"></ng-container>
+    }
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="cancel()" [disabled]="isSaving">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="isSaving || isLoadingLead">
+      @if (isSaving) {
+        <mat-spinner diameter="18" style="display:inline-block;vertical-align:middle;margin-right:6px"></mat-spinner>
+      }
+      {{ isSaving ? "Salvando..." : "Salvar" }}
+    </button>
+  </mat-dialog-actions>
+}
+
+@if (!isDialog) {
+  <div class="page-form-container">
+    @if (isLoadingLead) {
+      <div style="text-align:center;padding:64px">
+        <mat-spinner diameter="48" style="margin:auto"></mat-spinner>
+      </div>
+    }
+    @if (!isLoadingLead) {
+      <div class="page-form-header">
+        <button mat-icon-button routerLink="/leads" title="Voltar">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>{{ isEditing ? "Editar Lead" : "Novo Lead" }}</h2>
+      </div>
+      <ng-container *ngTemplateOutlet="formContent"></ng-container>
+      <div class="form-actions">
+        <button mat-button routerLink="/leads" [disabled]="isSaving">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="isSaving">
+          @if (isSaving) {
+            <mat-spinner diameter="18" style="display:inline-block;vertical-align:middle;margin-right:6px"></mat-spinner>
+          }
+          {{ isSaving ? "Salvando..." : "Salvar" }}
+        </button>
+      </div>
+    }
+  </div>
+}
+
+<ng-template #formContent>
+  <div style="display:flex;flex-direction:column;gap:12px;padding-top:8px">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input matInput [(ngModel)]="lead.name" name="name" required />
+      @if (fieldErrors['Name']) {
+        <mat-error>{{ fieldErrors['Name'].join(' ') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="lead.email" name="email" required />
+      @if (fieldErrors['Email']) {
+        <mat-error>{{ fieldErrors['Email'].join(' ') }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="lead.status" name="leadStatus">
+        @for (s of statuses; track s) {
+          <mat-option [value]="s">{{ s }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (errorMessage) {
+      <div class="error-box">
+        <mat-icon style="font-size:18px;height:18px;width:18px">error_outline</mat-icon>
+        {{ errorMessage }}
+      </div>
+    }
+
+    <div style="margin-top:8px">
+      <div class="section-header">
+        <h3>Tasks</h3>
+        <button mat-stroked-button color="primary" type="button" (click)="addTask()">
+          <mat-icon>add</mat-icon> Nova Task
+        </button>
+      </div>
+
+      @for (task of tasks; track task; let i = $index) {
+        <div class="task-row">
+          <mat-form-field appearance="outline" style="flex:2">
+            <mat-label>Título</mat-label>
+            <input matInput [(ngModel)]="task.title" [name]="'taskTitle' + i" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="flex:1">
+            <mat-label>Vencimento</mat-label>
+            <input matInput type="date" [(ngModel)]="task.dueDate" [name]="'taskDue' + i" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width:120px">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="task.status" [name]="'taskStatus' + i">
+              @for (ts of taskStatuses; track ts) {
+                <mat-option [value]="ts">{{ ts }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-icon-button color="warn" type="button" class="task-delete-btn" title="Remover task" (click)="removeTask(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      }
+
+      @if (tasks.length === 0) {
+        <div class="empty-tasks">Nenhuma task cadastrada.</div>
+      }
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,63 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+  ),
+  typography: (
+    brand-family: 'Roboto, "Helvetica Neue", sans-serif',
+  ),
+));
+
+html {
+  @include mat.all-component-themes($theme);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: #f5f6fa;
+  color: #1a1a2e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// Scrollbar discreta
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
+
+// Snackbars de feedback
+.snackbar-success .mdc-snackbar__surface {
+  background-color: #2e7d32 !important;
+  color: #fff !important;
+}
+.snackbar-success .mat-mdc-snack-bar-action,
+.snackbar-success .mat-mdc-button {
+  color: #fff !important;
+}
+
+.snackbar-error .mdc-snackbar__surface {
+  background-color: #c62828 !important;
+  color: #fff !important;
+}
+.snackbar-error .mat-mdc-snack-bar-action,
+.snackbar-error .mat-mdc-button {
+  color: #fff !important;
+}

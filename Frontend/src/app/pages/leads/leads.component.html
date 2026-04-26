@@ -1,0 +1,111 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2 class="page-title">Leads</h2>
+    <button mat-raised-button color="primary" (click)="openNewLeadModal()">
+      <mat-icon>add</mat-icon> Novo Lead
+    </button>
+  </div>
+
+  <div class="filters-bar">
+    <mat-form-field appearance="outline" class="filter-search">
+      <mat-label>Buscar</mat-label>
+      <input
+        matInput
+        placeholder="Nome ou email"
+        [(ngModel)]="searchText"
+        (ngModelChange)="onSearchChange()"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-status">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onStatusChange()">
+        <mat-option value="">Todos</mat-option>
+        @for (status of statuses; track status) {
+          <mat-option [value]="status">{{ status }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="table-card">
+    @if (isLoading) {
+      <div class="loading-container">
+        <mat-spinner diameter="48"></mat-spinner>
+      </div>
+    }
+
+    @if (!isLoading) {
+      <table mat-table [dataSource]="leads" class="leads-table">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let lead">
+            <span class="lead-name">{{ lead.name }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let lead">
+            <span class="lead-email">{{ lead.email }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let lead">
+            <span class="status-badge status-{{ lead.status | lowercase }}">
+              {{ lead.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="tasksCount">
+          <th mat-header-cell *matHeaderCellDef>Tasks</th>
+          <td mat-cell *matCellDef="let lead">
+            <span class="tasks-count">{{ lead.tasksCount }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef>Data</th>
+          <td mat-cell *matCellDef="let lead">
+            <span class="lead-date">{{ lead.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let lead">
+            <button mat-icon-button color="primary" title="Editar" (click)="openEditLeadModal(lead)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" title="Excluir" (click)="deleteLead(lead)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell empty-row" [attr.colspan]="displayedColumns.length">
+            <mat-icon>search_off</mat-icon>
+            <span>Nenhum lead encontrado.</span>
+          </td>
+        </tr>
+      </table>
+
+      <mat-paginator
+        [length]="totalCount"
+        [pageSize]="pageSize"
+        [pageIndex]="page - 1"
+        [pageSizeOptions]="[5, 10, 25]"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+      ></mat-paginator>
+    }
+  </div>
+</div>

@@ -1,0 +1,124 @@
+.page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+
+  .page-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a2e;
+  }
+}
+
+.filters-bar {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  .filter-search {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .filter-status {
+    width: 180px;
+  }
+}
+
+.table-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+}
+
+.leads-table {
+  width: 100%;
+
+  .lead-name {
+    font-weight: 500;
+    color: #1a1a2e;
+  }
+
+  .lead-email {
+    color: #555;
+    font-size: 13px;
+  }
+
+  .tasks-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e8f0fe;
+    color: #1976d2;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 12px;
+    padding: 2px 10px;
+    min-width: 28px;
+  }
+}
+
+// Badges de status
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  &.status-new {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+
+  &.status-qualified {
+    background: #fff3e0;
+    color: #e65100;
+  }
+
+  &.status-won {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.status-lost {
+    background: #fce4ec;
+    color: #b71c1c;
+  }
+}
+
+.empty-row {
+  text-align: center;
+  padding: 48px !important;
+  color: #aaa;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 36px;
+    height: 36px;
+    width: 36px;
+    color: #ccc;
+  }
+}
